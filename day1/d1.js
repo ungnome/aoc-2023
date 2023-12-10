@@ -33,18 +33,6 @@ async function part2() {
 	const calibrationInput = await open('input.txt');
 	const calibrationData = [];
 	let calibrationTotal = 0;
-	const wordsToDigits = {
-		zero: 0,
-		one: 1,
-		two: 2,
-		three: 3,
-		four: 4,
-		five: 5,
-		six: 6,
-		seven: 7,
-		eight: 8,
-		nine: 9,
-	};
 
 	// loop through each line
 	for await (const line of calibrationInput.readLines()) {
@@ -58,18 +46,11 @@ async function part2() {
 				break;
 			}
 
-			// check if character is a digit
-			if (isDigit(line[i])) {
-				digit1 = line[i];
+			const result = searchForDigit(line.substring(i));
+
+			if (result !== undefined) {
+				digit1 = result;
 				foundFirst = true;
-			} else {
-				// check if current position in line starts with a spelled out number
-				for (const word in wordsToDigits) {
-					if (line.startsWith(word, i)) {
-						digit1 = wordsToDigits[word];
-						foundFirst = true;
-					}
-				}
 			}
 		}
 
@@ -80,18 +61,11 @@ async function part2() {
 				break;
 			}
 
-			// check if character is a digit
-			if (isDigit(line[i])) {
-				digit2 = line[i];
+			const result = searchForDigit(line.substring(i));
+
+			if (result !== undefined) {
+				digit2 = result;
 				foundSecond = true;
-			} else {
-				// check if current position in line starts with a spelled out number
-				for (const word in wordsToDigits) {
-					if (line.startsWith(word, i)) {
-						digit2 = wordsToDigits[word];
-						foundSecond = true;
-					}
-				}
 			}
 		}
 
@@ -107,8 +81,32 @@ async function part2() {
 	return calibrationTotal;
 }
 
-function isDigit(str) {
-	return Number.isInteger(Number(str));
+function searchForDigit(str) {
+	let digit;
+	const wordsToDigits = {
+		zero: '0',
+		one: '1',
+		two: '2',
+		three: '3',
+		four: '4',
+		five: '5',
+		six: '6',
+		seven: '7',
+		eight: '8',
+		nine: '9',
+	};
+
+	if (Number.isInteger(Number(str[0]))) {
+		digit = str[0];
+	} else {
+		for (const word in wordsToDigits) {
+			if (str.startsWith(word)) {
+				digit = wordsToDigits[word];
+			}
+		}
+	}
+
+	return digit;
 }
 
 console.log(`part1: ${await part1()}`);
