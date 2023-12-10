@@ -1,0 +1,10 @@
+{
+  "name": "aoc-2023",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Advent of Code 2023 stuffs",
+  "main": "index.js",
+  "keywords": [],
+  "author": "ungnome",
+  "license": "ISC"
+}
